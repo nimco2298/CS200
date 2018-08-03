@@ -1,0 +1,18 @@
+public class MysteryGame extends JFrame
+{
+  JFrame window1;
+  
+  public MysteryGame() 
+  {
+    window1 = new JFrame();
+    window1,setSize(1300,500);
+    window1.setLayout(null);
+    window.setVisible(true);
+  }
+  
+  
+   public static void main(String [] args)
+  {
+     
+}
+                                     

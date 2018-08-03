@@ -1,0 +1,143 @@
+/*
+ * File: GameLayout.java
+ */
+import java.util.*;
+import java.io.*;
+
+public class GameLayout{
+  //Instance Variables
+  private Map<String, Set<String>> connections;
+  private Map<String, LocationDescription> descriptions;
+  private ArrayList<String> suspectList = new ArrayList<String>();
+  private String guilty;
+  
+  public GameLayout(){
+    connections = new HashMap<String, Set<String>>();
+    descriptions = new HashMap<String, LocationDescription>();
+  }
+  
+  public GameLayout(String connectionFile, String descriptionFile){
+    //Reads all of the locations in and saves their descriptions to the descriptions variable
+    descriptions = new HashMap<String, LocationDescription>();
+    try{
+      Scanner desc = new Scanner(new FileReader(descriptionFile));
+      while (desc.hasNextLine()){
+        String name = desc.nextLine();
+        String suspect = desc.nextLine();
+        String clue = desc.nextLine();
+        int token = Integer.parseInt(desc.nextLine());
+        LocationDescription d;
+        if(clue.equals("-"))
+          d = new LocationDescription(name, suspect, token);
+        else if(suspect.equals("-"))
+          d = new LocationDescription(name);
+        else{
+          d = new LocationDescription(name, suspect, clue, token);
+          suspectList.add(suspect);
+        }
+        descriptions.put(name, d);
+      }
+      desc.close();
+      //Add all the connections to a HashMap
+      connections = new HashMap<String, Set<String>>();
+      Scanner locations = new Scanner(new FileReader(connectionFile));
+      while (locations.hasNextLine()){
+        int numOfConnections;
+        String name = locations.nextLine();
+        if(locations.hasNextLine())
+          numOfConnections = Integer.parseInt(locations.nextLine());
+        else
+          numOfConnections = 0;
+        HashSet<String> connect = new HashSet<String>();
+        for(int i = 0; i < numOfConnections; i ++){
+            connect.add(locations.nextLine());
+        
+        }
+        connections.put(name, connect);
+      }
+      locations.close();
+      int random = (int)Math.floor(Math.random() * 4);
+      guilty = suspectList.get(random);
+    }catch(FileNotFoundException fnfe){
+    }
+  }
+  
+  
+  
+  
+  //Methods
+  
+  public String getGuilty(){
+    return guilty;
+  }
+  
+  //Iterates over all location names
+  public Iterator<String> iterateNames(){
+    Set names = descriptions.keySet();
+    return names.iterator();
+  }
+  
+  //Iterates over all connections to the inputed location
+  public Iterator<String> iterateConnections(String locationName){
+    Set connect = connections.get(locationName);
+    return (Iterator<String>)connect.iterator();
+  }
+  
+  //returns a Location Description for an inputed location
+  public LocationDescription getDescription(String name){
+    if(descriptions.containsKey(name))
+      return descriptions.get(name);
+    else
+      return null;
+  }
+  
+  public ArrayList<String> getSuspectList(){
+    return suspectList;
+  }
+  
+  /// Sets a property that has already been investigated so that
+  /// the user can not inspect the same thing twice
+  public void setPropertyToInspected(String locationName, String property){
+     for(String currentLocation : descriptions.keySet())
+     {
+       if(currentLocation.equals(locationName)){
+         LocationDescription desc = descriptions.get(locationName);
+         if(desc.getSuspect().equals(property)){
+           desc.setSuspect("null");
+         }
+         else if(desc.getClue().equals(property)){
+           desc.setClue("null");
+         }
+       }
+     }
+    
+   
+  }
+
+  /** Writes the collection to a locationsfile 
+    * and connections file in the same format
+    * */
+  public void write(){
+    Scanner sc = new Scanner(System.in);
+    System.out.println("Please enter a file name: ");
+    String fileName = sc.nextLine();
+    try{
+      PrintWriter writer = new PrintWriter(new FileWriter(fileName));
+      for(String descName : descriptions.keySet()){
+        //get the description object 
+          LocationDescription location = descriptions.get(descName);
+          writer.println(location.toString());
+          writer.println("_");
+        }
+      writer.close();
+      }  
+    catch(IOException ioe){
+    }
+  }
+  
+  
+  
+  
+  
+  
+}

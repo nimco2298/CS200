@@ -1,0 +1,199 @@
+import java.io.*; //File
+import javax.swing.*; 
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.awt.Graphics;
+import java.awt.Color;
+import java.awt.Component.*;
+import java.awt.BorderLayout;
+import java.awt.Image;
+import java.awt.Dimension;
+import javax.swing.border.*;
+import java.awt.event.*; //MousePressed
+
+public class AllImages extends JFrame
+{
+  /* instance variable */ 
+  JFrame frame;
+  
+  JLabel digsiteL;
+  JLabel entranceHallL;
+  JLabel grandHallL;
+  JLabel equipmentL;
+  JLabel treasureL;
+  JLabel tombL;
+  
+  /*Constructor that creates the images */
+  public AllImages()
+  {
+    //Player p = new Player();
+    ImageIcon digsite = new ImageIcon("/home/nhussein001/CS200/Labs/Project/DIGSITE.jpg");
+    ImageIcon digsiteScaled = new ImageIcon(digsite.getImage()
+                .getScaledInstance(digsite.getIconWidth() / 2,
+                        digsite.getIconHeight() / 2, Image.SCALE_SMOOTH));
+    digsiteL = new JLabel(digsiteScaled);
+    
+    ImageIcon equipmentRoom = new ImageIcon("/home/nhussein001/CS200/Labs/Project/equipmentHall.png");
+    ImageIcon equipmentScaled = new ImageIcon(equipmentRoom.getImage()
+                .getScaledInstance(equipmentRoom.getIconWidth() / 2,
+                        equipmentRoom.getIconHeight() / 2, Image.SCALE_SMOOTH));
+    equipmentL = new JLabel(equipmentScaled);
+    
+    ImageIcon entranceHall = new ImageIcon("/home/nhussein001/CS200/Labs/Project/entraceHall.jpg");
+    ImageIcon entranceHallScaled = new ImageIcon(entranceHall.getImage()
+                .getScaledInstance(entranceHall.getIconWidth() / 3,
+                        entranceHall.getIconHeight() / 3, Image.SCALE_SMOOTH));
+    entranceHallL = new JLabel(entranceHallScaled);
+    
+    
+    ImageIcon grandHall = new ImageIcon("/home/nhussein001/CS200/Labs/Project/grandHall.jpg");
+    ImageIcon grandScaled = new ImageIcon(grandHall.getImage()
+                .getScaledInstance(grandHall.getIconWidth() / 2,
+                        grandHall.getIconHeight() / 2, Image.SCALE_SMOOTH));
+    grandHallL = new JLabel(grandScaled);
+    
+    ImageIcon treasureRoom = new ImageIcon("/home/nhussein001/CS200/Labs/Project/treasureRoom.jpg");
+    ImageIcon treasureScaled = new ImageIcon(treasureRoom.getImage()
+                .getScaledInstance(treasureRoom.getIconWidth() / 2,
+                        treasureRoom.getIconHeight() / 2, Image.SCALE_SMOOTH));
+    treasureL = new JLabel(treasureScaled);
+    
+    ImageIcon tomb = new ImageIcon("/home/nhussein001/CS200/Labs/Project/tomb.jpg");
+    ImageIcon tombScaled = new ImageIcon(tomb.getImage()
+                .getScaledInstance(tomb.getIconWidth() / 7,
+                        tomb.getIconHeight() / 7, Image.SCALE_SMOOTH));
+    tombL = new JLabel(tombScaled);
+    
+    frame = new JFrame();
+    frame.setLayout(null);
+    frame.setSize(1300,1300);
+    frame.setTitle("Mystery Game");
+    frame.setVisible(true);
+    frame.getContentPane().setBackground(Color.cyan);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+   
+   }
+    
+  /*Method closes the JFrame window
+   * 
+   */ 
+  public void close()
+  {
+     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+     System.out.println("CLOSES");
+  }
+  
+  
+  /*Display the images 
+   * 
+   * @param String  the current location 
+   */ 
+    public void displayPicture(String currentLocation) 
+  {
+     
+    //resizes images
+    Dimension digSize = digsiteL.getPreferredSize();
+    digsiteL.setBounds(50,50, digSize.width, digSize.height);
+    
+    //Add it to position
+    Dimension entranceSize = entranceHallL.getPreferredSize();
+    entranceHallL.setBounds(100,450, entranceSize.width, entranceSize.height);
+    
+    Dimension equipmentSize = equipmentL.getPreferredSize();
+    equipmentL.setBounds(600,650, equipmentSize.width, equipmentSize.height);
+    
+    Dimension grandSize = grandHallL.getPreferredSize();
+    grandHallL.setBounds(500,250, grandSize.width, grandSize.height);
+    
+    Dimension treasureSize = treasureL.getPreferredSize();
+    treasureL.setBounds(550, 50, treasureSize.width, treasureSize.height); // X WAS 850 Y WAS 450
+   
+    
+    Dimension tombSize = tombL.getPreferredSize();
+    tombL.setBounds(950, 350, tombSize.width, tombSize.height);
+   
+    Border solidBorder = new MatteBorder(5, 5, 5, 5, Color.BLACK);
+    
+    if(currentLocation.equals("Dig Site")){
+      //display picture 
+ 
+       frame.add(digsiteL); 
+       digsiteL.setText("Dig Site");
+       digsiteL.setHorizontalTextPosition(JLabel.LEFT);
+       digsiteL.setBorder(solidBorder);
+       
+       entranceHallL.setBorder(null);
+       grandHallL.setBorder(null);
+       equipmentL.setBorder(null);
+       treasureL.setBorder(null);
+       tombL.setBorder(null);
+       
+    }
+      if(currentLocation.equals("Entrance Hall")){
+      frame.add(entranceHallL);
+      entranceHallL.setText("Entrance Hall");
+      entranceHallL.setBorder(solidBorder);
+      
+       digsiteL.setBorder(null);
+       grandHallL.setBorder(null);
+       equipmentL.setBorder(null);
+       treasureL.setBorder(null);
+       tombL.setBorder(null);
+      
+    }
+      else if(currentLocation.equals("Grand Hall")){
+       
+      frame.add(grandHallL);
+      grandHallL.setText("Grand Hall");
+      grandHallL.setBorder(solidBorder);
+      
+       digsiteL.setBorder(null);
+       entranceHallL.setBorder(null);
+       equipmentL.setBorder(null);
+       treasureL.setBorder(null);
+       tombL.setBorder(null);
+      //System.out.println("YESS GAND HALL");
+    }
+      else if(currentLocation.equals("Equipment Storage")){
+      frame.add(equipmentL);
+      equipmentL.setText("Equipment Storage");
+      equipmentL.setBorder(solidBorder);
+      
+       digsiteL.setBorder(null);
+       entranceHallL.setBorder(null);
+       grandHallL.setBorder(null);
+       treasureL.setBorder(null);
+       tombL.setBorder(null);
+      //frame.getContentPane().setBackground(Color.green);
+    }
+    
+     else if(currentLocation.equals("Treasure Room")){
+      frame.add(treasureL);
+      treasureL.setText("Treasure Room");
+      treasureL.setBorder(solidBorder);
+     
+    
+       digsiteL.setBorder(null);
+       entranceHallL.setBorder(null);
+       equipmentL.setBorder(null);
+       grandHallL.setBorder(null);
+       tombL.setBorder(null);
+    }
+      
+      else if(currentLocation.equals("Tomb")){
+      frame.add(tombL);
+      tombL.setText("Tomb");
+      tombL.setBorder(solidBorder);
+      
+       digsiteL.setBorder(null);
+       entranceHallL.setBorder(null);
+       equipmentL.setBorder(null);
+       treasureL.setBorder(null);
+       grandHallL.setBorder(null);
+
+      }
+  
+    
+  }
+     
+}
